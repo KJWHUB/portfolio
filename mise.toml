@@ -1,0 +1,4 @@
+[tools]
+node = "24.16.0"
+"npm:vercel" = "54.10.2"
+pnpm = "11.5.2"
