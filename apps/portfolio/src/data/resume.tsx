@@ -5,14 +5,14 @@ const email = "art.1025p@gmail.com";
 
 export const DATA = {
   name: "Kwon Jung Woon",
-  initials: "DV",
+  initials: "JW",
   url: "https://jungwoonkwon.com",
   location: "Seoul, South Korea",
   locationLink: "https://www.google.com/maps/place/seoul",
   description:
-    "안녕하세요! 저는 웹 개발자 권중운 입니다. 직관적이고 역동적인 인터페이스를 만들며, 좋은 DX와 UX를, 효과적인 아키텍쳐를 고민합니다.",
+    "직관적인 화면부터 안정적인 서버까지 만들며, 좋은 UX와 DX, 그리고 실제 운영으로 이어지는 효과적인 구조를 고민합니다.",
   summary:
-    "2년차 웹 개발자로서, 근무지는 서울, 경기도에서 근무하고있습니다. React와 Vue를 주로 사용하며, Typescript를 선호합니다. 백엔드는 Spring Boot를 사용해봤으며, 현재는 Next.js와 Nuxt.js를 주로 사용하고 있습니다.",
+    "서울에서 교육 서비스를 만들며 사용자 화면부터 서비스 API, 관리자 도구, 배포 환경까지 직접 맡고 있습니다. 사용하는 사람의 UX만큼 함께 개발하는 동료의 DX와 유지보수성, 명확한 구조를 중요하게 생각합니다.",
   avatarUrl: "/me.png",
   skills: ["React", "Vue", "Typescript", "Next.js", "Nuxt.js", "Docker", "JPA"],
   navbar: [
@@ -69,6 +69,18 @@ export const DATA = {
 
   work: [
     {
+      company: "(주)슈퍼러닝",
+      href: "#",
+      badges: [],
+      location: "Seoul, South Korea",
+      title: "Software Engineer",
+      logoUrl: "/company/classday-brand-logo.svg",
+      start: "Jul 2025",
+      end: "Present",
+      description:
+        "교육 서비스의 앱부터 백엔드, 인프라까지 폭넓게 맡고 있습니다. 특히 VAN 결제 연동을 중심으로 결제 승인·취소와 상태 관리, 관리자 운영 도구, 서비스 API, 배포 환경을 연결해 결제 기능이 실제 운영 환경에서 안정적으로 동작하도록 개발했습니다.",
+    },
+    {
       company: "원투씨엠(주)",
       href: "http://www.12cm.co.kr/ko/12cm/",
       badges: [],
@@ -78,7 +90,7 @@ export const DATA = {
       start: "Nov 2022",
       end: "Oct 2024",
       description:
-        "Vue 프레임워크를 사용하여 고객사 및 회사 내부 프로젝트의 관리자와 유저 클라이언트 화면을 설계하고 개발했습니다. Spring 프레임워크를 사용해 백엔드 RESTful API를 설계 및 구현하였으며 Vue2에서 Vue3로의 프로젝트 마이그레이션을 주도하여 진행했습니다. 이 과정에서 코드베이스를 리팩터링하고, Composition API와 같은 Vue3의 새로운 기능을 활용하여 성능 최적화와 코드 유지보수성을 개선했습니다.",
+        "Vue 기반 고객사 및 내부 프로젝트의 관리자와 사용자 클라이언트를 개발했습니다. Spring Boot 기반 REST API 설계와 구현을 경험했으며, Vue2에서 Vue3로의 마이그레이션을 진행하며 코드베이스 리팩터링, Composition API 도입, 유지보수성 개선을 담당했습니다.",
     },
     // {
     //   company: "Atomic Finance",
@@ -188,6 +200,18 @@ export const DATA = {
     // },
   ],
   projects: [
+    {
+      title: "Classday Product Platform",
+      href: "#",
+      dates: "Jul 2025 - Present",
+      active: true,
+      description:
+        "교육 서비스 운영에 필요한 사용자 앱과 웹, 관리자 도구, 서비스 API, 배포 환경을 폭넓게 담당하는 제품입니다. 기능 구현부터 운영 안정성까지 이어지는 end-to-end 개발을 맡고 있습니다.",
+      technologies: ["App", "Web", "Frontend", "Backend", "Product"],
+      links: [],
+      image: "/project/empty.png",
+      video: "",
+    },
     // {
     //   title: "Portfolio",
     //   href: "https://jungwoonkwon.com",
@@ -211,13 +235,13 @@ export const DATA = {
     //   video: "",
     // },
     {
-      title: "Nice Auth Utills",
+      title: "Nice Auth Utils",
       href: "https://kjwhub.github.io/nice-auth-utils",
-      dates: "Aug 2024 - Now",
+      dates: "Aug 2024 - Present",
       active: true,
       description:
-        "Nice Auth Utils는 NICE 본인인증 기능을 구현할때 편의성을 제공하는 유틸리티 라이브러리 입니다. 이 프로젝트를 통해 esbuild를 사용하여 빌드하는 방법과 NPM 레지스트리에 라이브러리를 배포하는 방법을 익혔습니다.",
-      technologies: ["ESbuild", "Typescript", "NPM Registry", "VitePress"],
+        "NICE 본인인증 연동에 필요한 반복 작업을 줄이기 위해 만든 TypeScript 유틸리티 라이브러리입니다. 패키지 빌드, 문서화, NPM 배포까지 직접 구성했습니다.",
+      technologies: ["TypeScript", "ESbuild", "NPM Registry", "VitePress"],
       links: [
         {
           type: "Docs",
@@ -239,38 +263,15 @@ export const DATA = {
       video: "",
     },
     {
-      title: "KB증권 WTS M-able 와이드",
-      href: "https://enchanting-dusk-348803.netlify.app",
-      dates: "Jun 2024 - Sep 2024",
-      active: true,
-      description:
-        "Nuxt.js 의 기본적인 사용법을 익히기 위해 KB증권의 M-able 와이드 웹사이트를 클론코딩하였습니다. 이 프로젝트를 통해 Nuxt.js의 기본적인 디렉토리 기반의 auth import 와 Nuxt.js 의 SSR 기능을 이해하였습니다.",
-      technologies: ["Nuxt.js", "Typescript", "Highcharts", "Netlify"],
-      links: [
-        {
-          type: "Website",
-          href: "https://enchanting-dusk-348803.netlify.app",
-          icon: <Icons.globe className="size-3" />,
-        },
-        {
-          type: "Source",
-          href: "https://github.com/KJWHUB/kb-mablewide-clone",
-          icon: <Icons.github className="size-3" />,
-        },
-      ],
-      image: "/project/kb-wts-mable.png",
-      video: "",
-    },
-    {
       title: "Vue3 Admin Template",
       href: "https://github.com/KJWHUB/vue3-admin-template-el-plus",
-      dates: "Jul 2024 - Now",
+      dates: "Jul 2024 - Present",
       active: true,
       description:
-        "Vue3 + [Element Plus](https://element-plus.org/en-US/component/overview.html) 기반의 관리자 템플릿입니다. meta 데이터 기반의 라우팅 기능, [MSW](https://mswjs.io) 를 사용한 API Mocking, [FSD](https://feature-sliced.design) 아키텍처를 적용하였습니다.",
+        "Vue3 + [Element Plus](https://element-plus.org/en-US/component/overview.html) 기반의 관리자 템플릿입니다. 메타 데이터 기반 라우팅, [MSW](https://mswjs.io)를 사용한 API mocking, [FSD](https://feature-sliced.design) 아키텍처를 적용해 운영 도구 개발의 기본 구조를 실험했습니다.",
       technologies: [
         "Vue",
-        "Typescript",
+        "TypeScript",
         "MSW",
         "Vitest",
         "Storybook",
@@ -320,8 +321,8 @@ export const DATA = {
       dates: "Oct 2023 - Feb 2024",
       active: false,
       description:
-        "Trip AMI는 한국 여행자들을 위한 여행 일정 관리 및 공유, 만남 플랫폼입니다. 여행 일정을 작성하고, 다른 사용자와 일정을 공유하며, 앱에서 등록한 현지 AMI 들과 여행을 함께하는 플랫폼 입니다. Trip AMI 프로젝트에서는 React Native을 사용하여 모바일 앱을 개발하였습니다. [Expo](https://expo.dev)를 사용하여 개발하였으며, Typescript를 사용하여 타입 안정성을 확보하였습니다. 이 프로젝트를 통해 Native OS API를 사용하는 경험을 쌓았으며, React Native의 장단점을 경험하며, 모바일 앱 개발에 대한 이해도를 높였습니다.",
-      technologies: ["React Native", "Typescript", "Expo"],
+        "한국 여행자를 위한 여행 일정 관리 및 공유 플랫폼입니다. [Expo](https://expo.dev)와 React Native로 모바일 앱을 개발하며 네이티브 OS API, 앱 라우팅, 타입 안정성, 모바일 UX를 경험했습니다.",
+      technologies: ["React Native", "TypeScript", "Expo"],
       links: [
         {
           type: "Source",
@@ -333,12 +334,12 @@ export const DATA = {
       video: "",
     },
     {
-      title: "Smlie Trip",
+      title: "Smile Trip",
       href: "https://www.gb-voyage.com",
       dates: "Jul 2023 - Dec 2023",
       active: true,
       description:
-        "경북 봐야지(GB VOYAGE)는 경상북도 북부 11개 시군의 관광 정보를 제공하는 온라인 여행 플랫폼입니다. 경북 봐야지 사이트는 한국어, 영어, 일본어, 중국어 등 4개 언어로 서비스되고 있습니다. 경북 봐야지 어드민 사이트의 백엔드 개발을 통해 실무에서의 백엔드 개발 경험을 쌓았습니다. 기본적인 API CRUD와 테이블 설계, 아키텍처 설계를 경험하고, 이를 통해 백엔드 개발에 대한 이해도를 높였습니다.",
+        "경상북도 북부 11개 시군의 관광 정보를 제공하는 다국어 여행 플랫폼입니다. 관리자 시스템의 백엔드 API, CRUD 흐름, 테이블 설계, 운영 데이터 관리 기능을 개발했습니다.",
       technologies: ["Vue", "Element Plus", "Spring Boot"],
       links: [
         {
@@ -356,7 +357,7 @@ export const DATA = {
       dates: "Dec 2022 - Jul 2023",
       active: true,
       description:
-        "K-deal 은 KT의 통신데이터를 기반으로 고객의 특성과 소비패턴, 관심사 등의 빅데이터를 AI로 분석해 개인에게 맞는 최적의 상품을 특가로 제공하는 온라인 쇼핑몰 서비스 입니다. 프로젝트에서 맡은 역할은 클라이언트 서비스 화면 구현 이었습니다. 첫 실무 프로젝트를 통해 기본적인 프론트엔드 역량과 업무 프로세스를 익힐 수 있었습니다.",
+        "KT 통신 데이터를 기반으로 개인화 상품을 제공하는 커머스 서비스입니다. 사용자 화면 개발을 담당하며 실무 프론트엔드 개발 프로세스와 협업 방식, 운영 서비스의 UI 구현 흐름을 익혔습니다.",
       technologies: ["Vue", "Element UI"],
       links: [
         {
