@@ -13,7 +13,7 @@ export const DATA = {
     "직관적인 화면부터 안정적인 서버까지 만들며, 좋은 UX와 DX, 그리고 실제 운영으로 이어지는 효과적인 구조를 고민합니다.",
   summary:
     "서울에서 교육 서비스를 만들며 사용자 화면부터 서비스 API, 관리자 도구, 배포 환경까지 직접 맡고 있습니다. 사용하는 사람의 UX만큼 함께 개발하는 동료의 DX와 유지보수성, 명확한 구조를 중요하게 생각합니다.",
-  avatarUrl: "/me.png",
+  avatarUrl: "/me2.png",
   skills: ["React", "Vue", "Typescript", "Next.js", "Nuxt.js", "Docker", "JPA"],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
