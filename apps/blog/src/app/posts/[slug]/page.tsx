@@ -6,6 +6,7 @@ import remarkGfm from "remark-gfm";
 import rehypePrettyCode, { type Options as RehypePrettyCodeOptions } from "rehype-pretty-code";
 import { ArrowLeft } from "lucide-react";
 import { getPostBySlug, getPostSlugs } from "@/lib/posts";
+import { mdxComponents } from "@/components/mdx-components";
 import { ViewCounter } from "@/components/view-counter";
 
 const SITE_NAME = "Kwon Jung Woon Blog";
@@ -98,6 +99,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         <div className="prose prose-neutral dark:prose-invert mt-10 max-w-none">
           <MDXRemote
             source={post.content}
+            components={mdxComponents}
             options={{
               mdxOptions: {
                 remarkPlugins: [remarkGfm],
