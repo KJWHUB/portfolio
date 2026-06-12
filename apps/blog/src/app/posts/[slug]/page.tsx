@@ -74,7 +74,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <span>{post.readingMinutes}분 읽기</span>
         </div>
 
-        <div className="prose prose-neutral mt-10 max-w-none">
+        <div className="prose prose-neutral dark:prose-invert mt-10 max-w-none">
           <MDXRemote
             source={post.content}
             options={{
