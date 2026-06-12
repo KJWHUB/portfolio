@@ -42,7 +42,13 @@ export default async function BlogHome() {
               </div>
               <div className="min-w-0 flex-1">
                 <h2 className="text-base font-medium leading-snug">
-                  <span className="link-underline">{post.title}</span>
+                  <span className="relative inline-block">
+                    {post.title}
+                    <span
+                      aria-hidden
+                      className="bg-current absolute -bottom-px left-0 h-px w-0 transition-[width] duration-300 ease-out group-hover:w-full motion-reduce:transition-none"
+                    />
+                  </span>
                 </h2>
                 <p className="text-muted-foreground mt-1 truncate text-[13px] leading-relaxed">
                   {post.description}

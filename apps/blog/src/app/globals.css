@@ -60,43 +60,17 @@
   }
 }
 
-.prose :where(code):not(:where(pre *))::before,
-.prose :where(code):not(:where(pre *))::after {
-  content: none;
-}
+@layer base {
+  .prose :where(code):not(:where(pre *))::before,
+  .prose :where(code):not(:where(pre *))::after {
+    content: none;
+  }
 
-.prose :where(code):not(:where(pre *)) {
-  @apply bg-muted rounded px-1.5 py-0.5 text-[0.85em] font-normal;
-}
+  .prose :where(code):not(:where(pre *)) {
+    @apply bg-muted rounded px-1.5 py-0.5 text-[0.85em] font-normal;
+  }
 
-.prose pre {
-  @apply overflow-x-auto rounded-lg p-4 text-sm leading-relaxed;
-}
-
-.link-underline {
-  position: relative;
-  display: inline-block;
-}
-
-.link-underline::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  height: 1px;
-  width: 100%;
-  background-color: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
-}
-
-.group:hover .link-underline::after {
-  transform: scaleX(1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .link-underline::after {
-    transition: none;
+  .prose pre {
+    @apply overflow-x-auto rounded-lg p-4 text-sm leading-relaxed;
   }
 }
