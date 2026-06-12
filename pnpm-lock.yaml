@@ -23,6 +23,9 @@ importers:
 
   apps/blog:
     dependencies:
+      '@neondatabase/serverless':
+        specifier: ^1.1.0
+        version: 1.1.0
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -567,6 +570,10 @@ packages:
     peerDependencies:
       '@types/react': '>=16'
       react: '>=16'
+
+  '@neondatabase/serverless@1.1.0':
+    resolution: {integrity: sha512-r3ZZhRjEcfEdKIZnoB1RusNgvHuaBRqfCzV4Gi+5A9yUX0S4HTws/ASWqt13wL4y4I+0rqsWGdA2w7EQXHi3+Q==}
+    engines: {node: '>=19.0.0'}
 
   '@next/env@16.2.9':
     resolution: {integrity: sha512-ki5VxxXfzD/9TDe13wyeTKIjQTAwBVpnr8KhRDUr8ltMUq1/NBpWNT5tiPoxiGl+PHM4X2ahSOiPk6iAimIzPg==}
@@ -3948,6 +3955,8 @@ snapshots:
       '@types/mdx': 2.0.14
       '@types/react': 19.2.17
       react: 19.2.7
+
+  '@neondatabase/serverless@1.1.0': {}
 
   '@next/env@16.2.9': {}
 

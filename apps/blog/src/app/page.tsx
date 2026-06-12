@@ -1,6 +1,10 @@
+import { Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
+import { getAllViews } from "@/lib/views";
+
+export const revalidate = 60;
 
 function formatDate(value: string) {
   const date = new Date(value);
@@ -9,8 +13,9 @@ function formatDate(value: string) {
   return `${date.getFullYear()}.${month}.${day}`;
 }
 
-export default function BlogHome() {
+export default async function BlogHome() {
   const posts = getAllPosts();
+  const views = await getAllViews();
 
   return (
     <main>
@@ -43,6 +48,11 @@ export default function BlogHome() {
                   <span>{formatDate(post.date)}</span>
                   <span aria-hidden>·</span>
                   <span>{post.readingMinutes}분 읽기</span>
+                  <span aria-hidden>·</span>
+                  <span className="inline-flex items-center gap-1">
+                    <Eye className="size-3.5" aria-hidden />
+                    {(views[post.slug] ?? 0).toLocaleString()}
+                  </span>
                 </div>
               </div>
             </Link>

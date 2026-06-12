@@ -6,6 +6,7 @@ import remarkGfm from "remark-gfm";
 import rehypePrettyCode, { type Options as RehypePrettyCodeOptions } from "rehype-pretty-code";
 import { ArrowLeft } from "lucide-react";
 import { getPostBySlug, getPostSlugs } from "@/lib/posts";
+import { ViewCounter } from "@/components/view-counter";
 
 const prettyCodeOptions: RehypePrettyCodeOptions = {
   theme: "github-dark",
@@ -72,6 +73,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <span>{formatDate(post.date)}</span>
           <span aria-hidden>·</span>
           <span>{post.readingMinutes}분 읽기</span>
+          <span aria-hidden>·</span>
+          <ViewCounter slug={slug} />
         </div>
 
         <div className="prose prose-neutral dark:prose-invert mt-10 max-w-none">
