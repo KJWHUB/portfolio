@@ -1,17 +1,11 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { cn } from "@repo/ui/utils";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
 import Link from "next/link";
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 
 import "./globals.css";
-
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 const SITE = "https://blog.jungwoonkwon.com";
 const SITE_NAME = "Kwon Jung Woon Blog";
@@ -66,12 +60,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body
-        className={cn(
-          "bg-background mx-auto min-h-screen max-w-2xl px-6 py-12 font-sans antialiased sm:py-24",
-          fontSans.variable,
-        )}
-      >
+      <body className="bg-background mx-auto min-h-screen max-w-2xl px-6 py-12 font-sans antialiased sm:py-24">
         <ThemeProvider attribute="class" defaultTheme="light">
           <header className="mb-12 flex items-center justify-between">
             <Link href="/" className="text-sm font-medium">

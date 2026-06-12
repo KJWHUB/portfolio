@@ -15,9 +15,16 @@ const config = {
     extend: {
       fontFamily: {
         sans: [
-          "var(--font-sans)",
-          "ui-sans-serif",
+          "\"Pretendard Variable\"",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "\"Apple SD Gothic Neo\"",
+          "\"Segoe UI\"",
           "system-ui",
+          "\"Noto Sans KR\"",
+          "\"Malgun Gothic\"",
+          "\"Helvetica Neue\"",
+          "Arial",
           "sans-serif",
           "Apple Color Emoji",
           "Segoe UI Emoji",
