@@ -3,3 +3,4 @@ packages:
   - "packages/*"
 allowBuilds:
   '@vercel/speed-insights': false
+  sharp: true

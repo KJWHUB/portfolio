@@ -1,40 +1,64 @@
-import { Badge } from "@repo/ui/badge";
-import { Button } from "@repo/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
-import { ArrowUpRight } from "lucide-react";
+import { Eye } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import { getAllPosts } from "@/lib/posts";
+import { getAllViews } from "@/lib/views";
 
-export default function BlogHome() {
+export const revalidate = 60;
+
+function formatDate(value: string) {
+  const date = new Date(value);
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${date.getFullYear()}.${month}.${day}`;
+}
+
+export default async function BlogHome() {
+  const posts = getAllPosts();
+  const views = await getAllViews();
+
   return (
-    <main className="flex min-h-[calc(100dvh-12rem)] flex-col justify-between gap-12">
-      <section className="space-y-8">
-        <div className="space-y-3">
-          <Badge variant="secondary">blog.jungwoonkwon.com</Badge>
-          <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">블로그 준비 중</h1>
-          <p className="text-muted-foreground max-w-xl text-sm leading-7 sm:text-base">
-            글과 콘텐츠 구조는 다음 단계에서 정리합니다. 이 앱은 포트폴리오와 분리된 Next.js
-            블로그로 운영됩니다.
-          </p>
-        </div>
+    <main>
+      <header className="mb-10 space-y-1">
+        <h1 className="text-sm font-medium">Writing</h1>
+        <p className="text-muted-foreground text-sm">권중운의 개발 노트 · 글 {posts.length}편</p>
+      </header>
 
-        <Card className="border">
-          <CardHeader>
-            <CardTitle className="text-base">Next steps</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <p>콘텐츠 모델 결정</p>
-            <p>MDX 기반 글 작성 흐름 설계</p>
-            <p>목록, 상세, 태그 화면 구현</p>
-          </CardContent>
-        </Card>
-      </section>
-
-      <Button asChild className="w-fit">
-        <Link href="https://jungwoonkwon.com">
-          포트폴리오로 이동
-          <ArrowUpRight className="ml-2 size-4" />
-        </Link>
-      </Button>
+      <ul className="border-b">
+        {posts.map((post) => (
+          <li key={post.slug}>
+            <Link href={`/posts/${post.slug}`} className="group flex gap-4 border-t py-4">
+              <div className="relative h-[70px] w-[104px] flex-none overflow-hidden rounded-md border">
+                <Image
+                  src={post.cover}
+                  alt=""
+                  fill
+                  sizes="104px"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h2 className="text-base font-medium leading-snug group-hover:underline">
+                  {post.title}
+                </h2>
+                <p className="text-muted-foreground mt-1 truncate text-[13px] leading-relaxed">
+                  {post.description}
+                </p>
+                <div className="text-muted-foreground mt-2 flex items-center gap-2 text-xs">
+                  <span>{formatDate(post.date)}</span>
+                  <span aria-hidden>·</span>
+                  <span>{post.readingMinutes}분 읽기</span>
+                  <span aria-hidden>·</span>
+                  <span className="inline-flex items-center gap-1">
+                    <Eye className="size-3.5" aria-hidden />
+                    {(views[post.slug] ?? 0).toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }
