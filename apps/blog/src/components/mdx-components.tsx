@@ -93,16 +93,22 @@ export function Flow({
   className,
 }: {
   title?: string;
-  items: string[];
+  items?: string[] | string;
   className?: string;
 }) {
-  if (!Array.isArray(items) || items.length === 0) return null;
+  const normalizedItems = Array.isArray(items)
+    ? items
+    : typeof items === "string"
+      ? items.split("|").map((item) => item.trim()).filter(Boolean)
+      : [];
+
+  if (normalizedItems.length === 0) return null;
 
   return (
     <figure className={cn("not-prose my-8 rounded-lg border bg-background p-4", className)}>
       {title ? <figcaption className="mb-3 text-sm font-semibold">{title}</figcaption> : null}
       <ol className="grid gap-2 sm:grid-cols-[repeat(auto-fit,minmax(130px,1fr))]">
-        {items.map((item, index) => (
+        {normalizedItems.map((item, index) => (
           <li key={`${item}-${index}`} className="flex items-start gap-2 rounded-md bg-muted/60 p-3 text-sm leading-6">
             <span className="mt-0.5 inline-flex size-5 flex-none items-center justify-center rounded-full bg-foreground text-[11px] font-semibold text-background">
               {index + 1}
