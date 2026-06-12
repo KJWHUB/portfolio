@@ -27,10 +27,7 @@ export default async function BlogHome() {
       <ul className="border-y">
         {posts.map((post, index) => (
           <li key={post.slug} className={index > 0 ? "border-t" : undefined}>
-            <Link
-              href={`/posts/${post.slug}`}
-              className="group -mx-3 flex gap-4 rounded-xl px-3 py-4 transition-colors duration-200 hover:bg-muted/60"
-            >
+            <Link href={`/posts/${post.slug}`} className="group flex gap-4 py-4">
               <div className="relative h-[70px] w-[104px] flex-none overflow-hidden rounded-md border">
                 <Image
                   src={post.cover}
@@ -46,7 +43,7 @@ export default async function BlogHome() {
                     {post.title}
                     <span
                       aria-hidden
-                      className="bg-current absolute -bottom-px left-0 h-px w-0 transition-[width] duration-300 ease-out group-hover:w-full motion-reduce:transition-none"
+                      className="bg-current absolute -bottom-0.5 left-0 h-0.5 w-0 transition-[width] duration-300 ease-out group-hover:w-full motion-reduce:transition-none"
                     />
                   </span>
                 </h2>
