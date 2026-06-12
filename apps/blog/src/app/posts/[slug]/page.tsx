@@ -8,6 +8,8 @@ import { ArrowLeft } from "lucide-react";
 import { getPostBySlug, getPostSlugs } from "@/lib/posts";
 import { ViewCounter } from "@/components/view-counter";
 
+const SITE_NAME = "Kwon Jung Woon Blog";
+
 const prettyCodeOptions: RehypePrettyCodeOptions = {
   theme: "github-dark",
   keepBackground: true,
@@ -25,11 +27,27 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: post.title,
     description: post.description,
+    keywords: post.tags,
+    alternates: {
+      canonical: `/posts/${post.slug}`,
+    },
     openGraph: {
       title: post.title,
       description: post.description,
+      url: `/posts/${post.slug}`,
+      siteName: SITE_NAME,
       type: "article",
-      images: [{ url: post.cover }],
+      locale: "ko_KR",
+      publishedTime: new Date(post.date).toISOString(),
+      authors: ["Kwon Jung Woon"],
+      tags: post.tags,
+      images: [{ url: post.cover, alt: post.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: [post.cover],
     },
   };
 }

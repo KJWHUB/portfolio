@@ -29,10 +29,11 @@ export function GET() {
     .join("\n");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Kwon Jung Woon Blog</title>
     <link>${SITE}</link>
+    <atom:link href="${SITE}/rss.xml" rel="self" type="application/rss+xml" />
     <description>권중운의 개발 노트</description>
     <language>ko-KR</language>
 ${items}

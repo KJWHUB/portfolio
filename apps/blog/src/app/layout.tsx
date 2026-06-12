@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@repo/ui/utils";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import Link from "next/link";
@@ -12,23 +13,49 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 
+const SITE = "https://blog.jungwoonkwon.com";
+const SITE_NAME = "Kwon Jung Woon Blog";
+const DESCRIPTION = "권중운의 개발 노트와 기술 회고.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://blog.jungwoonkwon.com"),
+  metadataBase: new URL(SITE),
+  applicationName: SITE_NAME,
+  authors: [{ name: "Kwon Jung Woon", url: "https://jungwoonkwon.com" }],
+  creator: "Kwon Jung Woon",
+  publisher: "Kwon Jung Woon",
+  keywords: ["권중운", "개발 블로그", "기술 블로그", "프론트엔드", "백엔드", "TypeScript", "Next.js"],
   title: {
     default: "Blog | Kwon Jung Woon",
     template: "%s | Kwon Jung Woon",
   },
-  description: "Kwon Jung Woon's technical writing and notes.",
+  description: DESCRIPTION,
   openGraph: {
     title: "Blog | Kwon Jung Woon",
-    description: "Kwon Jung Woon's technical writing and notes.",
-    url: "https://blog.jungwoonkwon.com",
-    siteName: "Kwon Jung Woon Blog",
+    description: DESCRIPTION,
+    url: SITE,
+    siteName: SITE_NAME,
     locale: "ko_KR",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog | Kwon Jung Woon",
+    description: DESCRIPTION,
+  },
   alternates: {
+    canonical: "/",
     types: { "application/rss+xml": "/rss.xml" },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -64,6 +91,7 @@ export default function RootLayout({
           </header>
           {children}
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
