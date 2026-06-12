@@ -24,21 +24,24 @@ export default async function BlogHome() {
         <p className="text-muted-foreground text-sm">권중운의 개발 노트 · 글 {posts.length}편</p>
       </header>
 
-      <ul className="border-b">
-        {posts.map((post) => (
-          <li key={post.slug}>
-            <Link href={`/posts/${post.slug}`} className="group flex gap-4 border-t py-4">
+      <ul className="border-y">
+        {posts.map((post, index) => (
+          <li key={post.slug} className={index > 0 ? "border-t" : undefined}>
+            <Link
+              href={`/posts/${post.slug}`}
+              className="group -mx-3 flex gap-4 rounded-xl px-3 py-4 transition-colors duration-200 hover:bg-muted/60"
+            >
               <div className="relative h-[70px] w-[104px] flex-none overflow-hidden rounded-md border">
                 <Image
                   src={post.cover}
                   alt=""
                   fill
                   sizes="104px"
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                 />
               </div>
               <div className="min-w-0 flex-1">
-                <h2 className="text-base font-medium leading-snug group-hover:underline">
+                <h2 className="text-base font-medium leading-snug">
                   {post.title}
                 </h2>
                 <p className="text-muted-foreground mt-1 truncate text-[13px] leading-relaxed">
