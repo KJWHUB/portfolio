@@ -1,0 +1,41 @@
+---
+title: 모노레포로 포트폴리오와 블로그 분리하기
+description: 하나의 저장소에서 두 개의 Next.js 앱을 독립적으로 운영하기까지의 구조 설계.
+date: 2026-06-10
+cover: /blog/monorepo-portfolio-blog.svg
+tags: [Monorepo, Next.js, Turborepo]
+---
+
+포트폴리오와 블로그는 성격이 다른 앱입니다. 포트폴리오는 거의 정적이고 자주 바뀌지 않지만, 블로그는 글이 계속 쌓이고 배포 주기도 다릅니다. 두 앱을 하나의 저장소에서 **독립적으로** 운영하기 위해 모노레포를 선택했습니다.
+
+## 왜 모노레포인가
+
+공용 UI 컴포넌트와 설정(eslint, tsconfig)을 한 곳에서 관리하면서도, 각 앱은 자기만의 배포 파이프라인을 갖습니다. `@repo/ui` 같은 내부 패키지를 두 앱이 함께 쓰되, 빌드는 따로 도는 구조입니다.
+
+```
+apps/
+  portfolio/   # jungwoonkwon.com
+  blog/        # blog.jungwoonkwon.com
+packages/
+  ui/          # 공용 컴포넌트
+  eslint-config/
+  typescript-config/
+```
+
+## Turborepo로 묶기
+
+`turbo`는 변경된 패키지만 다시 빌드하고 결과를 캐시합니다. 루트의 스크립트 하나로 전체를 다룰 수 있습니다.
+
+```json
+{
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "typecheck": "turbo typecheck"
+  }
+}
+```
+
+## 정리
+
+모노레포는 "한 곳에서 관리하되 따로 배포한다"는 요구를 깔끔하게 충족합니다. 공용 코드의 중복이 사라지고, 각 앱의 독립성은 유지됩니다.

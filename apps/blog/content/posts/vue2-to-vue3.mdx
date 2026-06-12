@@ -1,0 +1,32 @@
+---
+title: Vue2에서 Vue3로, 마이그레이션 회고
+description: Composition API 도입과 리팩터링으로 유지보수성을 끌어올린 과정.
+date: 2026-04-30
+cover: /blog/vue2-to-vue3.svg
+tags: [Vue, 마이그레이션, 리팩터링]
+---
+
+레거시 Vue2 프로젝트를 Vue3로 옮기는 일은 단순한 버전 업이 아니라, 코드베이스를 다시 들여다보는 기회였습니다.
+
+## Options API에서 Composition API로
+
+기존의 `data`, `methods`, `computed`로 흩어져 있던 로직을 관심사 단위로 묶었습니다.
+
+```ts
+import { ref, computed } from "vue";
+
+export function useCounter() {
+  const count = ref(0);
+  const doubled = computed(() => count.value * 2);
+  const increment = () => (count.value += 1);
+  return { count, doubled, increment };
+}
+```
+
+## 점진적 마이그레이션
+
+한 번에 다 바꾸지 않고, 화면 단위로 나눠 옮겼습니다. 호환 빌드를 거치며 기존 동작을 깨지 않는 선에서 조금씩 전환했습니다.
+
+## 정리
+
+마이그레이션의 진짜 가치는 최신 문법이 아니라, **로직을 다시 정리하며 얻은 유지보수성**이었습니다.
