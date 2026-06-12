@@ -1,0 +1,178 @@
+---
+title: 상태 비교에 이름을 붙이는 기준
+description: 단순 상수 비교와 predicate, 도메인 메서드 사이에서 과하지 않게 선택하는 법.
+date: 2026-06-12
+cover: /blog/2026-06-12-state-comparison-naming.jpg
+tags: [TypeScript, 설계, 리팩터링]
+---
+
+상태값을 비교하는 코드는 작지만, 설계 취향이 꽤 드러난다.
+
+```ts
+if (status === "PAID") {}
+if (status === PaymentStatus.PAID) {}
+if (isPaid(status)) {}
+if (payment.isPaid()) {}
+```
+
+위 코드 4줄은 비슷해 보이지만 책임의 위치가 다르다. 첫 번째와 두 번째는 값을 비교하는 코드고, 세 번째는 판단에 이름을 붙인 코드고, 네 번째는 객체가 그 판단을 직접 책임지는 코드다.
+
+문제는 “어떤 방식이 제일 세련됐나”가 아니다. 상태 비교가 단순한 데이터 확인인지, 아니면 코드 안에서 반복될 정책 판단인지 구분하는 게 먼저다. 이걸 구분하지 않으면 단순한 코드에는 불필요한 추상화가 생기고, 중요한 조건은 이름 없이 흩어진다.
+
+## 값이면 그대로 비교한다
+
+단일 상태값을 확인하는 정도라면 상수나 enum을 직접 비교하는 쪽이 가장 낫다.
+
+```ts
+if (payment.status === PaymentStatus.APPROVED) {
+  // 승인된 결제
+}
+```
+
+문자열 리터럴을 직접 쓰면 오타를 컴파일 타임에 잡기 어렵다. 그래서 `"APPROVED"`보다는 `PaymentStatus.APPROVED`가 낫다.
+
+여기서 바로 `isApproved(payment.status)`를 만들 필요는 없다. 함수 이름이 본문보다 더 많은 정보를 주지 못하면 추상화가 아니라 우회로가 된다.
+
+```ts
+function isApproved(status: PaymentStatus) {
+  return status === PaymentStatus.APPROVED;
+}
+```
+
+이 함수는 틀린 코드는 아니다. 하지만 호출부에서 얻는 정보가 거의 없다.
+
+```ts
+if (isApproved(payment.status)) {}
+```
+
+이 정도라면 `payment.status === PaymentStatus.APPROVED`가 더 직접적이다. 값 비교는 값 비교처럼 보이는 편이 읽기 쉽다.
+
+## 의미가 생기면 이름을 붙인다
+
+조건이 여러 필드를 조합하기 시작하면 얘기가 달라진다.
+
+```ts
+function isRefundable(payment: Payment) {
+  return (
+    payment.status === PaymentStatus.APPROVED &&
+    payment.cancelableAmount > 0 &&
+    !payment.isSettled
+  );
+}
+```
+
+이건 “승인 상태인가”가 아니라 “환불 가능한가”다. 상태, 금액, 정산 여부가 섞인 정책이다. 호출하는 곳마다 이 조건을 풀어 쓰면 정책이 흩어지고, 읽는 사람도 매번 의미를 다시 계산해야 한다.
+
+```ts
+if (
+  payment.status === PaymentStatus.APPROVED &&
+  payment.cancelableAmount > 0 &&
+  !payment.isSettled
+) {
+  // 환불 처리
+}
+```
+
+이 코드는 한 번만 나오면 참을 만하다. 두세 군데에 반복되기 시작하면 부담이 된다. 조건 하나가 바뀌었을 때 모든 호출부를 찾아야 하고, 어떤 곳은 `cancelableAmount > 0`을 빼먹을 수도 있다. 이런 순간에는 함수 이름이 필요하다.
+
+`isRefundable`이라는 이름은 단순히 코드를 짧게 만드는 장치가 아니다. “이 조건 묶음은 환불 가능 여부라는 정책이다”라고 선언하는 역할을 한다.
+
+## 객체의 책임이면 메서드로 둔다
+
+상태 판단이 특정 객체의 책임이라면 메서드가 더 자연스럽다.
+
+```ts
+if (payment.isRefundable()) {
+  // 환불 처리
+}
+```
+
+객체가 자기 상태를 가지고 있고, 그 상태를 판단하는 규칙도 함께 가져야 한다면 외부 함수보다 내부 메서드가 응집도를 높인다.
+
+```ts
+class Payment {
+  constructor(
+    private status: PaymentStatus,
+    private cancelableAmount: number,
+    private settled: boolean,
+  ) {}
+
+  isRefundable() {
+    return (
+      this.status === PaymentStatus.APPROVED &&
+      this.cancelableAmount > 0 &&
+      !this.settled
+    );
+  }
+}
+```
+
+이 구조에서는 호출부가 `Payment` 내부의 판단 재료를 몰라도 된다. “환불 가능한가”만 물으면 된다. 도메인 객체가 있는 백엔드 코드라면 이 편이 자연스럽다.
+
+반대로 API 응답 DTO나 화면 상태처럼 얇은 데이터라면 굳이 클래스로 감쌀 이유가 없다. `payment.isRefundable()` 하나를 위해 직렬화와 생성 흐름을 복잡하게 만들면 배보다 배꼽이 커진다.
+
+## `.is("FOO")`는 애매하다
+
+`a.is("FOO")`는 겉으로는 객체지향적으로 보이지만, 문자열을 그대로 넘긴다면 `a === "FOO"`와 크게 다르지 않다. 오히려 타입 안전성은 그대로 약하고, 읽는 사람은 `is`가 뭘 더 해주는지 확인해야 한다.
+
+쓴다면 최소한 `a.is(Type.FOO)`처럼 인자를 타입으로 제한해야 한다. 그래도 단순 값 비교라면 `a === Type.FOO`가 더 읽기 쉽다.
+
+`.is()`가 의미를 가지려면 값 객체에 가까워야 한다.
+
+```ts
+class PaymentStatusValue {
+  constructor(private value: PaymentStatus) {}
+
+  is(status: PaymentStatus) {
+    return this.value === status;
+  }
+
+  isCompleted() {
+    return (
+      this.value === PaymentStatus.APPROVED ||
+      this.value === PaymentStatus.PARTIALLY_REFUNDED
+    );
+  }
+}
+```
+
+이 정도가 되면 단순 비교를 숨기는 게 아니라 상태값 주변의 의미를 모으는 쪽에 가깝다.
+
+## 기준은 책임의 위치다
+
+나는 보통 이렇게 둔다.
+
+```ts
+// 단순 값 비교
+payment.status === PaymentStatus.APPROVED;
+
+// 이름이 필요한 정책
+isRefundable(payment);
+
+// 객체가 책임지는 판단
+payment.isRefundable();
+```
+
+상태값 하나를 확인하는 코드는 그대로 드러내도 된다. 오히려 그게 읽기 쉽다. 여러 조건이 합쳐져 정책이 되면 이름을 붙인다. 그리고 그 판단이 객체의 책임이라면 메서드로 옮긴다.
+
+AI에게 리팩터링을 맡기는 일이 늘어날수록 이 차이는 더 커진다. 조건이 그대로 흩어져 있으면 AI도 그 의미를 매번 추론해야 한다.
+
+```ts
+payment.status === PaymentStatus.APPROVED &&
+payment.cancelableAmount > 0 &&
+!payment.isSettled;
+```
+
+이 코드가 “환불 가능 여부”인지, “취소 가능한 결제”인지, “정산 전 결제”인지 이름만 보고는 알 수 없다. 반대로 `isRefundable(payment)`처럼 이름이 붙어 있으면 사람도, AI도 그 조건을 하나의 의미 단위로 다루기 쉽다. 리팩터링할 때도 조건 일부를 빼먹거나 다른 정책과 섞을 가능성이 줄어든다.
+
+그렇다고 모든 비교를 미리 인터페이스나 메서드로 감쌀 필요는 없다. 의미 없는 추상화가 많아지면 AI도 사람처럼 헷갈린다.
+
+```ts
+interface StatusComparable {
+  is(value: string): boolean;
+}
+```
+
+이런 인터페이스는 경계를 만든 것처럼 보이지만, 실제로는 어떤 도메인 의미도 드러내지 않는다. `isRefundable`, `isCancelable`, `isCompleted`처럼 정책의 이름이 보일 때 비로소 리팩터링 가능한 단위가 된다.
+
+추상화는 코드를 감추는 기술이 아니라 책임을 놓을 위치를 정하는 일에 가깝다. 단순한 코드를 억지로 감싸지 않고, 흩어지면 위험한 판단에만 이름을 붙이는 쪽이 오래 간다. AI가 코드를 더 자주 고치게 될수록 이 기준은 더 중요해질 것 같다.

@@ -33,6 +33,7 @@ export default async function BlogHome() {
                   src={post.cover}
                   alt=""
                   fill
+                  loading={index === 0 ? "eager" : "lazy"}
                   sizes="104px"
                   className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                 />

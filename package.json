@@ -4,6 +4,9 @@
   "private": true,
   "packageManager": "pnpm@11.5.2",
   "scripts": {
+    "blog:activity": "node scripts/blog-drafts/collect-github-activity.mjs",
+    "blog:claude-brief": "node scripts/blog-drafts/claude-draft-brief.mjs",
+    "blog:validate-content": "node scripts/blog-drafts/validate-blog-content.mjs",
     "build": "turbo build",
     "dev": "turbo dev",
     "format": "prettier --write .",
