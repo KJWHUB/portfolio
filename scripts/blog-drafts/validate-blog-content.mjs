@@ -142,17 +142,28 @@ function validateBodyImages(label, body, type) {
     (match) => ({ alt: match[1], src: match[2] }),
   );
   const htmlImages = [...body.matchAll(/<img\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/g)].map((match) => ({
-    alt: "",
+    alt: readAttribute(match[0], "alt"),
     src: match[1],
   }));
+  const componentImages = [...body.matchAll(/<[A-Z][\w.]*\b[^>]*\bsrc=["']([^"']+)["'][^>]*\/?>/g)].map(
+    (match) => ({
+      alt: readAttribute(match[0], "alt"),
+      src: match[1],
+    }),
+  );
 
-  for (const image of [...markdownImages, ...htmlImages]) {
+  for (const image of [...markdownImages, ...htmlImages, ...componentImages]) {
     if (!image.src.startsWith("/blog/")) continue;
     validatePublicBlogAsset(label, image.src, type, "body image");
     if (image.alt.trim().length === 0) {
       warnings.push(`${label}: body image ${image.src} should include meaningful alt text`);
     }
   }
+}
+
+function readAttribute(source, name) {
+  const match = source.match(new RegExp(`\\b${name}=["']([^"']*)["']`));
+  return match ? match[1] : "";
 }
 
 function countKoreanDraftChars(body) {

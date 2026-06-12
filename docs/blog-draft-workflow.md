@@ -25,6 +25,7 @@ node scripts/blog-drafts/claude-draft-brief.mjs --activity-file=/tmp/blog-activi
 - Drafts may use SVG, PNG, JPG, or WebP assets from `apps/blog/public/blog/drafts`.
 - Use SVG for deterministic diagrams, symbolic covers, and simple code/architecture visuals.
 - Use generated bitmap images when the post benefits from a richer illustration or cover. Save generated project assets into `apps/blog/public/blog/drafts`; never reference an image that only exists under Codex's generated image cache.
+- Use visual elements actively when they clarify the post: diagrams, generated images, callouts, comparison blocks, and compact flows are preferred over long explanatory paragraphs when they reduce ambiguity.
 - Run the content validator before reporting:
 
 ```sh
@@ -82,6 +83,71 @@ public_safety_notes: 공개 글에서 숨기거나 추상화한 내용
 - Every body image needs meaningful alt text and must be referenced from `/blog/drafts/` while the post is still a draft.
 - Cover images can be SVG, PNG, JPG, or WebP. Prefer generated PNG/WebP only when a richer illustration is actually useful.
 
+## Visuals And MDX Components
+
+- Use visual support whenever it improves understanding, especially for state transitions, before/after code responsibility, architecture boundaries, refactoring flows, technology stacks, domain concepts, and tradeoffs.
+- Do not add decorative visuals just to make the post look richer. A visual should replace confusion, not add ornament.
+- Prefer MDX components for structured explanation and Markdown/code blocks for ordinary prose.
+- Available MDX components:
+  - `<Callout tone="note|decision|tradeoff|warning" title="...">...</Callout>`
+  - `<Compare leftTitle="..." rightTitle="...">...</Compare>` with two child blocks.
+  - `<Flow title="..." items="첫 단계|둘째 단계|셋째 단계" />`
+  - `<Figure src="/blog/drafts/<asset>" alt="..." caption="..." />`
+  - `<TechStack title="...">...</TechStack>` with `<Tech name="..." src="/blog/drafts/<logo>.svg" description="..." href="..." />` children.
+- Use `<Figure />` instead of a raw Markdown image when the image needs a caption.
+- All image assets referenced from MDX components must stay under `/blog/drafts/` while the post is a draft.
+- MDX components must stay static and content-focused. Do not add client-only interactions, external fetches, hidden tracking, or private data.
+- Use technology or product logos when they help readers identify a stack or domain quickly. Do not use logos as decoration.
+- Prefer local SVG assets saved under `apps/blog/public/blog/drafts`; do not hotlink third-party logo URLs in MDX.
+- Sources such as SVGL can be used for common product logos, but verify brand usage rights and prefer official brand assets when the logo is central to the article.
+- For abstract domains such as payments, authorization, state machines, migrations, or observability, prefer a generated image, SVG diagram, `<Flow />`, or `<Callout />` over a brand logo.
+
+Example:
+
+````mdx
+<Callout tone="decision" title="이름을 붙일 기준">
+단순 값 확인이면 상수 비교로 충분하고, 반복되는 정책 판단이면 함수나 메서드로 올린다.
+</Callout>
+
+<Compare leftTitle="값 확인" rightTitle="정책 판단">
+  <div>
+
+    ```ts
+    payment.status === PaymentStatus.APPROVED
+    ```
+
+  </div>
+  <div>
+
+    ```ts
+    payment.isRefundable()
+    ```
+
+  </div>
+</Compare>
+
+<Flow title="책임이 이동하는 순서" items="값 비교|판단 함수|도메인 메서드" />
+
+<TechStack title="관련 스택">
+  <Tech
+    name="Next.js"
+    src="/blog/drafts/YYYY-MM-DD-short-topic-nextjs.svg"
+    description="글 목록과 상세 페이지 렌더링"
+    href="https://nextjs.org"
+  />
+  <Tech
+    name="MDX"
+    description="본문 안에서 구조화된 설명 컴포넌트 사용"
+  />
+</TechStack>
+
+<Figure
+  src="/blog/drafts/YYYY-MM-DD-short-topic-figure.png"
+  alt="상태 판단 책임이 값 비교에서 도메인 메서드로 이동하는 흐름"
+  caption="비교 자체보다 판단의 이름이 중요해지는 지점"
+/>
+````
+
 ## Private And Organization Repo Safety
 
 - Treat private repos and organization repos as sensitive by default.
@@ -105,7 +171,7 @@ When that phrase is used:
 - Remove draft-only frontmatter such as `draftLength`.
 - Move the MDX file from `apps/blog/content/drafts` to `apps/blog/content/posts`.
 - Move the cover from `apps/blog/public/blog/drafts` to `apps/blog/public/blog`, then update `cover` in frontmatter from `/blog/drafts/<filename>` to `/blog/<filename>`.
-- Move any body images referenced from `/blog/drafts/<slug>...` to `apps/blog/public/blog`, then update their MDX references from `/blog/drafts/...` to `/blog/...`.
+- Move any body images referenced from Markdown, `<img>`, or MDX components from `/blog/drafts/<slug>...` to `apps/blog/public/blog`, then update their MDX references from `/blog/drafts/...` to `/blog/...`.
 - Run:
 
 ```sh
