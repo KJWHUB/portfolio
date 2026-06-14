@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@/components/theme-provider";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { SiteHeader } from "@/components/site-header";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import "./globals.css";
 const SITE = "https://blog.jungwoonkwon.com";
 const SITE_NAME = "Kwon Jung Woon Blog";
 const DESCRIPTION = "권중운의 개발 노트와 기술 회고.";
+const COPYRIGHT_YEAR = 2026;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
@@ -60,25 +61,32 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className="bg-background mx-auto min-h-screen max-w-2xl px-6 py-12 font-sans antialiased sm:py-24">
+      <body className="bg-background mx-auto flex min-h-screen max-w-2xl flex-col px-6 py-12 font-sans antialiased sm:py-24">
         <ThemeProvider attribute="class" defaultTheme="light">
-          <header className="mb-12 flex items-center justify-between">
-            <Link href="/" className="text-sm font-medium">
-              권중운
-            </Link>
-            <div className="flex items-center gap-1">
+          <SiteHeader />
+          <div className="flex-1">{children}</div>
+          <footer className="text-muted-foreground mt-20 border-t pt-8 text-sm leading-6">
+            <p>읽어주셔서 감사합니다.</p>
+            <nav aria-label="Footer" className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+              <Link href="/" className="hover:text-foreground transition-colors">
+                Writing
+              </Link>
+              <a href="/rss.xml" className="hover:text-foreground transition-colors">
+                RSS
+              </a>
               <a
                 href="https://jungwoonkwon.com"
                 target="_blank"
                 rel="noreferrer"
-                className="text-muted-foreground hover:text-foreground inline-flex h-9 items-center rounded-md px-2 text-sm transition-colors"
+                className="hover:text-foreground transition-colors"
               >
                 Portfolio
               </a>
-              <ThemeToggle />
-            </div>
-          </header>
-          {children}
+            </nav>
+            <p className="mt-4 text-xs leading-5">
+              © {COPYRIGHT_YEAR} Kwon Jung Woon. All rights reserved.
+            </p>
+          </footer>
         </ThemeProvider>
         <Analytics />
       </body>

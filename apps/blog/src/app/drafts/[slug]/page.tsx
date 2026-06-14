@@ -1,12 +1,12 @@
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import rehypePrettyCode, { type Options as RehypePrettyCodeOptions } from "rehype-pretty-code";
-import { ArrowLeft } from "lucide-react";
 import { mdxComponents } from "@/components/mdx-components";
+import { TableOfContents } from "@/components/table-of-contents";
 import { getDraftBySlug, getDraftSlugs } from "@/lib/drafts";
+import { getTableOfContents, rehypeHeadingIds } from "@/lib/toc";
 
 const prettyCodeOptions: RehypePrettyCodeOptions = {
   theme: "github-dark",
@@ -49,16 +49,10 @@ export default async function DraftPage({ params }: { params: Promise<{ slug: st
   const draft = getDraftBySlug(slug);
   if (!draft) notFound();
 
+  const tableOfContents = getTableOfContents(draft.content);
+
   return (
     <main>
-      <Link
-        href="/drafts"
-        className="text-muted-foreground hover:text-foreground mb-8 inline-flex items-center gap-1.5 text-sm transition-colors"
-      >
-        <ArrowLeft className="size-4" />
-        Drafts
-      </Link>
-
       <article>
         <div className="relative mb-8 aspect-[2/1] w-full overflow-hidden rounded-xl border">
           <Image
@@ -87,6 +81,8 @@ export default async function DraftPage({ params }: { params: Promise<{ slug: st
           ) : null}
         </div>
 
+        <TableOfContents items={tableOfContents} />
+
         <div className="prose prose-neutral dark:prose-invert mt-10 max-w-none">
           <MDXRemote
             source={draft.content}
@@ -94,7 +90,7 @@ export default async function DraftPage({ params }: { params: Promise<{ slug: st
             options={{
               mdxOptions: {
                 remarkPlugins: [remarkGfm],
-                rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
+                rehypePlugins: [rehypeHeadingIds, [rehypePrettyCode, prettyCodeOptions]],
               },
             }}
           />

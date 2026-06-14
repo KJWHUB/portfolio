@@ -1,12 +1,12 @@
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import rehypePrettyCode, { type Options as RehypePrettyCodeOptions } from "rehype-pretty-code";
-import { ArrowLeft } from "lucide-react";
 import { getPostBySlug, getPostSlugs } from "@/lib/posts";
+import { getTableOfContents, rehypeHeadingIds } from "@/lib/toc";
 import { mdxComponents } from "@/components/mdx-components";
+import { TableOfContents } from "@/components/table-of-contents";
 import { ViewCounter } from "@/components/view-counter";
 
 const SITE_NAME = "Kwon Jung Woon Blog";
@@ -66,6 +66,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
+  const tableOfContents = getTableOfContents(post.content);
   const postUrl = `${SITE_URL}/posts/${post.slug}`;
   const jsonLd = {
     "@context": "https://schema.org",
@@ -97,13 +98,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Link
-        href="/"
-        className="text-muted-foreground hover:text-foreground mb-8 inline-flex items-center gap-1.5 text-sm transition-colors"
-      >
-        <ArrowLeft className="size-4" />
-        Writing
-      </Link>
 
       <article>
         <div className="relative mb-8 aspect-[2/1] w-full overflow-hidden rounded-xl border">
@@ -126,6 +120,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <ViewCounter slug={slug} />
         </div>
 
+        <TableOfContents items={tableOfContents} />
+
         <div className="prose prose-neutral dark:prose-invert mt-10 max-w-none">
           <MDXRemote
             source={post.content}
@@ -133,7 +129,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             options={{
               mdxOptions: {
                 remarkPlugins: [remarkGfm],
-                rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
+                rehypePlugins: [rehypeHeadingIds, [rehypePrettyCode, prettyCodeOptions]],
               },
             }}
           />
