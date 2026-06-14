@@ -20,8 +20,8 @@ export default async function BlogHome() {
   return (
     <main>
       <header className="mb-10 space-y-1">
-        <h1 className="text-sm font-medium">Writing</h1>
-        <p className="text-muted-foreground text-sm">권중운의 개발 노트 · 글 {posts.length}편</p>
+        <h1 className="text-sm font-medium">권중운의 개발 노트</h1>
+        <p className="text-muted-foreground text-sm">Writing · 글 {posts.length}편</p>
       </header>
 
       <ul className="border-y">

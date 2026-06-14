@@ -10,6 +10,7 @@ import { mdxComponents } from "@/components/mdx-components";
 import { ViewCounter } from "@/components/view-counter";
 
 const SITE_NAME = "Kwon Jung Woon Blog";
+const SITE_URL = "https://blog.jungwoonkwon.com";
 
 const prettyCodeOptions: RehypePrettyCodeOptions = {
   theme: "github-dark",
@@ -65,8 +66,37 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
+  const postUrl = `${SITE_URL}/posts/${post.slug}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    datePublished: new Date(post.date).toISOString(),
+    dateModified: new Date(post.date).toISOString(),
+    image: new URL(post.cover, SITE_URL).toString(),
+    url: postUrl,
+    mainEntityOfPage: postUrl,
+    inLanguage: "ko-KR",
+    keywords: post.tags,
+    author: {
+      "@type": "Person",
+      name: "Kwon Jung Woon",
+      url: "https://jungwoonkwon.com",
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Kwon Jung Woon",
+      url: "https://jungwoonkwon.com",
+    },
+  };
+
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Link
         href="/"
         className="text-muted-foreground hover:text-foreground mb-8 inline-flex items-center gap-1.5 text-sm transition-colors"

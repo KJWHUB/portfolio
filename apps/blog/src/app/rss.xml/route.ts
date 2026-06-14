@@ -18,13 +18,20 @@ export function GET() {
 
   const items = posts
     .map(
-      (post) => `    <item>
+      (post) => {
+        const categories = post.tags
+          .map((tag) => `      <category>${escapeXml(tag)}</category>`)
+          .join("\n");
+
+        return `    <item>
       <title>${escapeXml(post.title)}</title>
       <link>${SITE}/posts/${post.slug}</link>
       <guid>${SITE}/posts/${post.slug}</guid>
       <description>${escapeXml(post.description)}</description>
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
-    </item>`,
+${categories}
+    </item>`;
+      },
     )
     .join("\n");
 
