@@ -17,6 +17,9 @@ pnpm typecheck
 pnpm build
 ```
 
+`pnpm dev` starts the portfolio at `http://localhost:1025` and the blog at
+`http://localhost:1026`.
+
 ## Blog draft workflow
 
 AI-generated blog drafts are kept out of the published MDX directory until they

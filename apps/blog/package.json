@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
+    "dev": "next dev --port 1026",
     "lint": "next lint",
-    "start": "next start",
+    "start": "next start --port 1026",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
