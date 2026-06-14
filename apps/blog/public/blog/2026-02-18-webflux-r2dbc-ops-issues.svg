@@ -1,68 +1,74 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Spring WebFlux and R2DBC operations issues</title>
-  <desc id="desc">A diagram showing WebFlux, converter, R2DBC, MySQL, and external API boundaries where operational issues appear.</desc>
-  <rect width="1200" height="630" fill="#F8FAFC"/>
-  <rect x="64" y="58" width="1072" height="514" rx="28" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
-  <text x="104" y="126" fill="#0F172A" font-family="Arial, sans-serif" font-size="42" font-weight="700">WebFlux + R2DBC Ops Notes</text>
-  <text x="104" y="166" fill="#475569" font-family="Arial, sans-serif" font-size="21">Problems found at data, network, and database boundaries</text>
+  <title id="title">Spring WebFlux plus R2DBC operations issues</title>
+  <desc id="desc">A blog cover with Spring WebFlux and R2DBC style icons connected by a plus sign, with small markers for production issues.</desc>
+  <defs>
+    <linearGradient id="background" x1="90" y1="40" x2="1110" y2="590" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6FAF5"/>
+      <stop offset="0.48" stop-color="#F8FBFF"/>
+      <stop offset="1" stop-color="#EEF4FF"/>
+    </linearGradient>
+    <linearGradient id="springTile" x1="260" y1="160" x2="428" y2="460" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7ED957"/>
+      <stop offset="1" stop-color="#28A745"/>
+    </linearGradient>
+    <linearGradient id="r2dbcTile" x1="774" y1="156" x2="948" y2="460" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2D3C82"/>
+      <stop offset="1" stop-color="#111A4E"/>
+    </linearGradient>
+    <linearGradient id="connector" x1="452" y1="315" x2="748" y2="315" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22C55E"/>
+      <stop offset="0.5" stop-color="#64748B"/>
+      <stop offset="1" stop-color="#273574"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#0F172A" flood-opacity="0.16"/>
+    </filter>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M34 0H0V34" stroke="#D8E2EA" stroke-width="1" opacity="0.5"/>
+    </pattern>
+  </defs>
 
-  <g transform="translate(104 222)">
-    <rect width="178" height="92" rx="16" fill="#DCFCE7" stroke="#22C55E" stroke-width="2"/>
-    <text x="24" y="39" fill="#14532D" font-family="Arial, sans-serif" font-size="24" font-weight="700">WebFlux</text>
-    <text x="24" y="66" fill="#166534" font-family="Arial, sans-serif" font-size="15">request flow</text>
-  </g>
-  <path d="M296 268H382" stroke="#64748B" stroke-width="4" stroke-linecap="round"/>
-  <path d="M372 253L392 268L372 283" stroke="#64748B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.42"/>
+  <circle cx="135" cy="98" r="130" fill="#C7F9CC" opacity="0.46"/>
+  <circle cx="1076" cy="526" r="166" fill="#DDE7FF" opacity="0.72"/>
+  <path d="M78 501C180 444 282 429 392 456C512 486 604 550 742 526C850 508 921 444 1035 459" stroke="#D6E0EA" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 14"/>
 
-  <g transform="translate(408 222)">
-    <rect width="178" height="92" rx="16" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="24" y="39" fill="#075985" font-family="Arial, sans-serif" font-size="24" font-weight="700">Converter</text>
-    <text x="24" y="66" fill="#0369A1" font-family="Arial, sans-serif" font-size="15">JSON mapping</text>
-  </g>
-  <path d="M600 268H686" stroke="#64748B" stroke-width="4" stroke-linecap="round"/>
-  <path d="M676 253L696 268L676 283" stroke="#64748B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M454 315H746" stroke="url(#connector)" stroke-width="18" stroke-linecap="round"/>
+  <path d="M492 315H708" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 22" opacity="0.8"/>
 
-  <g transform="translate(712 222)">
-    <rect width="178" height="92" rx="16" fill="#F0FDFA" stroke="#14B8A6" stroke-width="2"/>
-    <text x="24" y="39" fill="#134E4A" font-family="Arial, sans-serif" font-size="24" font-weight="700">R2DBC</text>
-    <text x="24" y="66" fill="#0F766E" font-family="Arial, sans-serif" font-size="15">row mapping</text>
-  </g>
-  <path d="M904 268H990" stroke="#64748B" stroke-width="4" stroke-linecap="round"/>
-  <path d="M980 253L1000 268L980 283" stroke="#64748B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-
-  <g transform="translate(1016 222)">
-    <rect width="76" height="92" rx="16" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
-    <text x="18" y="39" fill="#78350F" font-family="Arial, sans-serif" font-size="22" font-weight="700">SQL</text>
-    <text x="14" y="66" fill="#92400E" font-family="Arial, sans-serif" font-size="15">data</text>
-  </g>
-
-  <g transform="translate(104 382)">
-    <rect width="190" height="74" rx="14" fill="#FFF1F2" stroke="#FB7185" stroke-width="2"/>
-    <text x="20" y="32" fill="#881337" font-family="Arial, sans-serif" font-size="18" font-weight="700">JSON drift</text>
-    <text x="20" y="55" fill="#9F1239" font-family="Arial, sans-serif" font-size="14">old fields remain</text>
-  </g>
-  <g transform="translate(314 382)">
-    <rect width="190" height="74" rx="14" fill="#FDF2F8" stroke="#F472B6" stroke-width="2"/>
-    <text x="20" y="32" fill="#831843" font-family="Arial, sans-serif" font-size="18" font-weight="700">Null invariant</text>
-    <text x="20" y="55" fill="#9D174D" font-family="Arial, sans-serif" font-size="14">DB and code mismatch</text>
-  </g>
-  <g transform="translate(524 382)">
-    <rect width="190" height="74" rx="14" fill="#EEF2FF" stroke="#818CF8" stroke-width="2"/>
-    <text x="20" y="32" fill="#312E81" font-family="Arial, sans-serif" font-size="18" font-weight="700">Buffer limit</text>
-    <text x="20" y="55" fill="#3730A3" font-family="Arial, sans-serif" font-size="14">large 200 OK body</text>
-  </g>
-  <g transform="translate(734 382)">
-    <rect width="190" height="74" rx="14" fill="#F5F3FF" stroke="#A78BFA" stroke-width="2"/>
-    <text x="20" y="32" fill="#4C1D95" font-family="Arial, sans-serif" font-size="18" font-weight="700">Token index</text>
-    <text x="20" y="55" fill="#5B21B6" font-family="Arial, sans-serif" font-size="14">length meets keys</text>
-  </g>
-  <g transform="translate(944 382)">
-    <rect width="148" height="74" rx="14" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
-    <text x="18" y="32" fill="#1E293B" font-family="Arial, sans-serif" font-size="18" font-weight="700">Guardrails</text>
-    <text x="18" y="55" fill="#334155" font-family="Arial, sans-serif" font-size="14">tests and DDL</text>
+  <g filter="url(#softShadow)">
+    <rect x="184" y="168" width="288" height="288" rx="44" fill="#FFFFFF"/>
+    <rect x="200" y="184" width="256" height="256" rx="36" fill="#EAFBE8"/>
+    <circle cx="328" cy="312" r="88" fill="url(#springTile)"/>
+    <path d="M389 265C352 261 309 272 282 299C255 326 250 361 264 382C286 358 315 341 350 331C319 340 294 357 275 382C298 397 337 393 365 366C393 338 401 297 389 265Z" fill="#FFFFFF"/>
+    <path d="M278 379C298 348 323 327 361 312" stroke="#1F8A3A" stroke-width="8" stroke-linecap="round" opacity="0.45"/>
+    <path d="M244 314C244 266 281 227 329 225" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.65"/>
+    <path d="M390 338C393 288 359 243 309 235" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.45"/>
+    <text x="328" y="492" fill="#14532D" font-family="Inter, Arial, sans-serif" font-size="27" font-weight="800" text-anchor="middle">Spring WebFlux</text>
   </g>
 
-  <path d="M180 356C180 338 198 326 220 326H497" stroke="#FB7185" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 9"/>
-  <path d="M410 356C410 338 428 326 450 326H801" stroke="#F472B6" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 9"/>
-  <path d="M620 356C620 338 638 326 660 326H1048" stroke="#818CF8" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 9"/>
+  <g filter="url(#softShadow)">
+    <rect x="728" y="168" width="288" height="288" rx="44" fill="#FFFFFF"/>
+    <rect x="744" y="184" width="256" height="256" rx="36" fill="#EFF4FF"/>
+    <circle cx="872" cy="312" r="88" fill="url(#r2dbcTile)"/>
+    <ellipse cx="872" cy="272" rx="54" ry="21" fill="#FFFFFF"/>
+    <path d="M818 272V343C818 355 842 365 872 365C902 365 926 355 926 343V272" fill="#DDE6FF"/>
+    <path d="M818 272V343C818 355 842 365 872 365C902 365 926 355 926 343V272" stroke="#FFFFFF" stroke-width="8"/>
+    <ellipse cx="872" cy="272" rx="54" ry="21" stroke="#FFFFFF" stroke-width="8"/>
+    <path d="M821 308C831 319 851 325 872 325C893 325 913 319 923 308" stroke="#1D2B68" stroke-width="7" stroke-linecap="round" opacity="0.35"/>
+    <path d="M831 236H875L911 272" stroke="#AFC0FF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="831" cy="236" r="9" fill="#AFC0FF"/>
+    <circle cx="875" cy="236" r="9" fill="#AFC0FF"/>
+    <circle cx="911" cy="272" r="9" fill="#AFC0FF"/>
+    <text x="872" y="492" fill="#172554" font-family="Inter, Arial, sans-serif" font-size="27" font-weight="800" text-anchor="middle">R2DBC</text>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <circle cx="600" cy="312" r="48" fill="#FFFFFF"/>
+    <circle cx="600" cy="312" r="36" fill="#0F172A"/>
+    <path d="M600 293V331" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+    <path d="M581 312H619" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
 </svg>
