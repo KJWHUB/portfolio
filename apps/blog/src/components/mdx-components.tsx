@@ -7,7 +7,8 @@ type CalloutTone = "note" | "decision" | "tradeoff" | "warning";
 const calloutConfig = {
   note: {
     icon: Lightbulb,
-    className: "border-zinc-200 bg-zinc-50 text-zinc-950 dark:border-zinc-800 dark:bg-zinc-900/45 dark:text-zinc-50",
+    className:
+      "border-zinc-200 bg-zinc-50 text-zinc-950 dark:border-zinc-800 dark:bg-zinc-900/45 dark:text-zinc-50",
   },
   decision: {
     icon: GitBranch,
@@ -16,7 +17,8 @@ const calloutConfig = {
   },
   tradeoff: {
     icon: Scale,
-    className: "border-sky-200 bg-sky-50 text-sky-950 dark:border-sky-900 dark:bg-sky-950/30 dark:text-sky-50",
+    className:
+      "border-sky-200 bg-sky-50 text-sky-950 dark:border-sky-900 dark:bg-sky-950/30 dark:text-sky-50",
   },
   warning: {
     icon: AlertTriangle,
@@ -45,7 +47,7 @@ export function Callout({
         <Icon className="mt-0.5 size-4 flex-none" aria-hidden />
         <div className="min-w-0">
           {title ? <p className="m-0 text-sm font-semibold leading-6">{title}</p> : null}
-          <div className="prose prose-neutral dark:prose-invert mt-1 max-w-none text-sm leading-7 prose-p:my-1.5 prose-code:text-[0.9em]">
+          <div className="prose prose-neutral dark:prose-invert prose-p:my-1.5 prose-code:text-[0.9em] mt-1 max-w-none text-sm leading-7">
             {children}
           </div>
         </div>
@@ -76,9 +78,9 @@ export function Compare({
   return (
     <div className={cn("mdx-compare not-prose my-8 grid gap-3 sm:grid-cols-2", className)}>
       {columns.map((column) => (
-        <section key={column.title} className="min-w-0 rounded-lg border bg-background p-4">
+        <section key={column.title} className="bg-background min-w-0 rounded-lg border p-4">
           <h3 className="m-0 text-sm font-semibold leading-6">{column.title}</h3>
-          <div className="prose prose-neutral dark:prose-invert mt-3 max-w-none text-sm leading-7 prose-p:my-2 prose-pre:my-3">
+          <div className="prose prose-neutral dark:prose-invert prose-p:my-2 prose-pre:my-3 mt-3 max-w-none text-sm leading-7">
             {column.content}
           </div>
         </section>
@@ -99,21 +101,31 @@ export function Flow({
   const normalizedItems = Array.isArray(items)
     ? items
     : typeof items === "string"
-      ? items.split("|").map((item) => item.trim()).filter(Boolean)
+      ? items
+          .split("|")
+          .map((item) => item.trim())
+          .filter(Boolean)
       : [];
 
   if (normalizedItems.length === 0) return null;
 
   return (
-    <figure className={cn("not-prose my-8 rounded-lg border bg-background p-4", className)}>
-      {title ? <figcaption className="mb-3 text-sm font-semibold">{title}</figcaption> : null}
-      <ol className="grid gap-2 sm:grid-cols-[repeat(auto-fit,minmax(130px,1fr))]">
+    <figure className={cn("not-prose bg-muted/20 my-8 rounded-lg border p-4 sm:p-5", className)}>
+      {title ? (
+        <figcaption className="mb-4 text-sm font-semibold leading-6">{title}</figcaption>
+      ) : null}
+      <ol className="before:bg-border relative space-y-3 before:absolute before:bottom-4 before:left-4 before:top-4 before:w-px">
         {normalizedItems.map((item, index) => (
-          <li key={`${item}-${index}`} className="flex items-start gap-2 rounded-md bg-muted/60 p-3 text-sm leading-6">
-            <span className="mt-0.5 inline-flex size-5 flex-none items-center justify-center rounded-full bg-foreground text-[11px] font-semibold text-background">
+          <li
+            key={`${item}-${index}`}
+            className="relative grid grid-cols-[2rem_1fr] items-center gap-3"
+          >
+            <span className="ring-background z-10 inline-flex size-8 items-center justify-center rounded-full bg-emerald-600 text-xs font-semibold text-white shadow-sm ring-4 dark:bg-emerald-500 dark:text-emerald-950">
               {index + 1}
             </span>
-            <span>{item}</span>
+            <span className="bg-background min-w-0 rounded-md border px-3 py-3 text-sm leading-6 shadow-sm">
+              {item}
+            </span>
           </li>
         ))}
       </ol>
@@ -134,9 +146,11 @@ export function Figure({
 }) {
   return (
     <figure className={cn("not-prose my-8", className)}>
-      <img src={src} alt={alt} loading="lazy" className="w-full rounded-lg border bg-muted" />
+      <img src={src} alt={alt} loading="lazy" className="bg-muted w-full rounded-lg border" />
       {caption ? (
-        <figcaption className="text-muted-foreground mt-2 text-center text-sm leading-6">{caption}</figcaption>
+        <figcaption className="text-muted-foreground mt-2 text-center text-sm leading-6">
+          {caption}
+        </figcaption>
       ) : null}
     </figure>
   );
@@ -152,7 +166,7 @@ export function TechStack({
   className?: string;
 }) {
   return (
-    <section className={cn("not-prose my-8 rounded-lg border bg-muted/20 p-4", className)}>
+    <section className={cn("not-prose bg-muted/20 my-8 rounded-lg border p-4", className)}>
       {title ? <h3 className="m-0 mb-3 text-base font-semibold leading-7">{title}</h3> : null}
       <div className="grid gap-2 sm:grid-cols-2">{children}</div>
     </section>
@@ -163,19 +177,26 @@ export function Tech({
   name,
   description,
   src,
+  alt,
   href,
   className,
 }: {
   name: string;
   description?: string;
   src?: string;
+  alt?: string;
   href?: string;
   className?: string;
 }) {
   const content = (
     <div className="flex min-w-0 items-start gap-3">
       {src ? (
-        <img src={src} alt={`${name} logo`} loading="lazy" className="mt-0.5 size-7 flex-none object-contain" />
+        <img
+          src={src}
+          alt={alt ?? `${name} logo`}
+          loading="lazy"
+          className="mt-0.5 size-7 flex-none object-contain"
+        />
       ) : (
         <span className="bg-background text-muted-foreground ring-border mt-0.5 inline-flex size-7 flex-none items-center justify-center rounded-md text-[11px] font-semibold ring-1">
           {name.slice(0, 2).toUpperCase()}
@@ -184,9 +205,13 @@ export function Tech({
       <div className="min-w-0">
         <p className="m-0 flex items-center gap-1.5 text-sm font-semibold leading-5">
           <span>{name}</span>
-          {href ? <ExternalLink className="size-3.5 flex-none text-muted-foreground" aria-hidden /> : null}
+          {href ? (
+            <ExternalLink className="text-muted-foreground size-3.5 flex-none" aria-hidden />
+          ) : null}
         </p>
-        {description ? <p className="text-foreground/75 m-0 mt-1 text-[13px] leading-5">{description}</p> : null}
+        {description ? (
+          <p className="text-foreground/75 m-0 mt-1 text-[13px] leading-5">{description}</p>
+        ) : null}
       </div>
     </div>
   );
