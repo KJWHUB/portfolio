@@ -7,18 +7,18 @@ import process from "node:process";
 const LENGTH_PRESETS = {
   short: {
     label: "short",
-    range: "700-1,000 Korean characters excluding code blocks",
-    guidance: "Use for small tips or one narrow decision. Keep examples minimal.",
+    range: "1,100-1,700 Korean characters excluding code blocks",
+    guidance: "Use for one narrow decision or a compact engineering note. Keep examples focused.",
   },
   medium: {
     label: "medium",
-    range: "1,100-1,700 Korean characters excluding code blocks",
-    guidance: "Default. Use for one focused engineering note with 2-4 sections.",
+    range: "1,800-2,700 Korean characters excluding code blocks",
+    guidance: "Default. Use for one focused engineering note with enough context, examples, and 3-5 sections.",
   },
   long: {
     label: "long",
-    range: "1,800-2,700 Korean characters excluding code blocks",
-    guidance: "Use when the topic needs context, tradeoffs, before/after examples, and a fuller conclusion.",
+    range: "2,800-4,200 Korean characters excluding code blocks",
+    guidance: "Use when the topic needs deeper context, tradeoffs, before/after examples, edge cases, and a fuller conclusion.",
   },
 };
 
@@ -106,7 +106,7 @@ Explain what was generalized or excluded.
 Lowercase slug. Use YYYY-MM-DD-short-topic.
 
 ## frontmatter
-Provide title, description, date, cover, tags. Use cover /blog/drafts/<slug>.svg and tags as an inline array.
+Provide title, description, date, cover, tags. Use cover /blog/drafts/<slug>.png and tags as an inline array.
 
 ## draft
 Write the actual MDX body. Follow the requested length target.

@@ -11,9 +11,9 @@ const DRAFTS_DIR = path.join(BLOG_DIR, "content/drafts");
 const PUBLIC_DIR = path.join(BLOG_DIR, "public");
 const POSTS_LIB = path.join(BLOG_DIR, "src/lib/posts.ts");
 const LENGTH_PRESETS = {
-  short: { min: 700, max: 1000 },
-  medium: { min: 1100, max: 1700 },
-  long: { min: 1800, max: 2700 },
+  short: { min: 1100, max: 1700 },
+  medium: { min: 1800, max: 2700 },
+  long: { min: 2800, max: 4200 },
 };
 
 const errors = [];

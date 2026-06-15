@@ -7,9 +7,9 @@ This workflow keeps AI-generated writing reviewable. Drafts are never public unt
 - Run in a Codex worktree for `/Users/kjw_oon/Documents/GitHub/portfolio`.
 - Use the Codex app cron schedule: every day at 09:00 KST.
 - Choose a length preset before drafting. Default to `medium` unless the user asks otherwise.
-  - `short`: 700-1,000 Korean characters excluding code blocks.
-  - `medium`: 1,100-1,700 Korean characters excluding code blocks.
-  - `long`: 1,800-2,700 Korean characters excluding code blocks.
+  - `short`: 1,100-1,700 Korean characters excluding code blocks.
+  - `medium`: 1,800-2,700 Korean characters excluding code blocks.
+  - `long`: 2,800-4,200 Korean characters excluding code blocks.
 - Start by running:
 
 ```sh
@@ -23,8 +23,10 @@ node scripts/blog-drafts/claude-draft-brief.mjs --activity-file=/tmp/blog-activi
 - If there is no strong topic, make no file changes and report `쓸 만한 글감 없음` with a short reason.
 - If there is a strong topic, create exactly one draft MDX file under `apps/blog/content/drafts` and one cover asset under `apps/blog/public/blog/drafts`.
 - Drafts may use SVG, PNG, JPG, or WebP assets from `apps/blog/public/blog/drafts`.
-- Use SVG for deterministic diagrams, symbolic covers, and simple code/architecture visuals.
-- Use generated bitmap images when the post benefits from a richer illustration or cover. Save generated project assets into `apps/blog/public/blog/drafts`; never reference an image that only exists under Codex's generated image cache.
+- Prefer generated PNG/WebP cover images for blog posts, especially for abstract engineering topics such as payments, architecture, migrations, operations, or workflow design.
+- Use SVG for deterministic diagrams, small symbolic assets, logos, or body figures that need exact shapes/text. Do not default to text-heavy SVG covers.
+- Generated bitmap covers should look like polished editorial assets rather than diagrams pasted into a card. Prefer clean product/technical scenes, glassmorphism, still-life, abstract infrastructure, or other visual metaphors with little or no text.
+- Save generated project assets into `apps/blog/public/blog/drafts`; never reference an image that only exists under Codex's generated image cache.
 - Use visual elements actively when they clarify the post: diagrams, generated images, callouts, comparison blocks, and compact flows are preferred over long explanatory paragraphs when they reduce ambiguity.
 - Run the content validator before reporting:
 
@@ -38,7 +40,7 @@ Draft filenames should use a stable lowercase slug:
 
 ```txt
 apps/blog/content/drafts/YYYY-MM-DD-short-topic.mdx
-apps/blog/public/blog/drafts/YYYY-MM-DD-short-topic.svg
+apps/blog/public/blog/drafts/YYYY-MM-DD-short-topic.png
 apps/blog/public/blog/drafts/YYYY-MM-DD-short-topic-figure.png
 ```
 
@@ -49,11 +51,13 @@ Use this frontmatter shape:
 title: 글 제목
 description: 한 문장 요약
 date: YYYY-MM-DD
-cover: /blog/drafts/YYYY-MM-DD-short-topic.svg
+cover: /blog/drafts/YYYY-MM-DD-short-topic.png
 tags: [Tag, Tag]
 draftLength: medium
 ---
 ```
+
+Use `.png` or `.webp` for the cover path when the cover is generated. Use `.svg` only when the cover is intentionally a deterministic vector asset.
 
 After frontmatter, include a review-only HTML comment. This comment must be removed before publishing.
 
@@ -76,17 +80,21 @@ public_safety_notes: 공개 글에서 숨기거나 추상화한 내용
 - Do not use filler openings like `이번 글에서는`, `알아보겠습니다`, `중요합니다`, `현대적인`, or broad generic claims.
 - Avoid exaggerated AI tone, motivational conclusions, and tidy lessons that were not supported by the commits.
 - Keep the scope narrow enough that the post feels like a real engineering note, not a survey article.
-- Current published posts are short and focused, but new drafts should default to `medium` length unless the topic clearly works better as `short` or `long`.
+- Current published posts are short and focused, but new drafts should default to the newer, longer `medium` length unless the topic clearly works better as `short` or `long`.
 - Do not paste Claude's output directly. Remove unsupported claims, tighten the language, and make the final draft sound like the existing blog.
 - Frontmatter must match the existing blog parser, including `tags: [Tag, Tag]` as an inline array.
+- Use `##` headings to create a readable table of contents for ordinary posts. A draft should usually have 3-5 concrete sections after the intro, with headings that describe the decision or problem rather than generic labels.
+- Start with the concrete situation or tension before explaining terminology. Put definitions after the reader understands why the distinction matters.
 - Body images can be added with Markdown, for example `![Alt text](/blog/drafts/YYYY-MM-DD-short-topic-figure.png)`.
 - Every body image needs meaningful alt text and must be referenced from `/blog/drafts/` while the post is still a draft.
-- Cover images can be SVG, PNG, JPG, or WebP. Prefer generated PNG/WebP only when a richer illustration is actually useful.
+- Cover images can be SVG, PNG, JPG, or WebP. Prefer generated PNG/WebP for covers unless a deterministic vector cover is specifically better.
 
 ## Visuals And MDX Components
 
 - Use visual support whenever it improves understanding, especially for state transitions, before/after code responsibility, architecture boundaries, refactoring flows, technology stacks, domain concepts, and tradeoffs.
 - Do not add decorative visuals just to make the post look richer. A visual should replace confusion, not add ornament.
+- For covers, avoid dense text, small labels, table-like diagrams, or SVGs filled with explanatory copy. A cover should create the subject mood; the article body and MDX components should carry the explanation.
+- Good generated cover directions for this blog include glassmorphism technical scenes, clean payment/infra mapping visuals, minimal still-life compositions, and abstract UI/infrastructure forms with no logos or watermarks.
 - Prefer MDX components for structured explanation and Markdown/code blocks for ordinary prose.
 - Available MDX components:
   - `<Callout tone="note|decision|tradeoff|warning" title="...">...</Callout>`
