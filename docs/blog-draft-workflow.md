@@ -26,6 +26,7 @@ node scripts/blog-drafts/claude-draft-brief.mjs --activity-file=/tmp/blog-activi
 - Prefer generated PNG/WebP cover images for blog posts, especially for abstract engineering topics such as payments, architecture, migrations, operations, or workflow design.
 - Use SVG for deterministic diagrams, small symbolic assets, logos, or body figures that need exact shapes/text. Do not default to text-heavy SVG covers.
 - Generated bitmap covers should look like polished editorial assets rather than diagrams pasted into a card. Prefer clean product/technical scenes, glassmorphism, still-life, abstract infrastructure, or other visual metaphors with little or no text.
+- For generated covers, aim for a Pulse-like editorial thumbnail quality: one immediately readable visual idea, strong depth and lighting, clean composition, premium product-detail rendering, and no UI clutter. Do not copy a specific Pulse image; use the quality bar and thumbnail clarity as the reference.
 - Save generated project assets into `apps/blog/public/blog/drafts`; never reference an image that only exists under Codex's generated image cache.
 - Use visual elements actively when they clarify the post: diagrams, generated images, callouts, comparison blocks, and compact flows are preferred over long explanatory paragraphs when they reduce ambiguity.
 - Run the content validator before reporting:
@@ -85,6 +86,7 @@ public_safety_notes: 공개 글에서 숨기거나 추상화한 내용
 - Frontmatter must match the existing blog parser, including `tags: [Tag, Tag]` as an inline array.
 - Use `##` headings to create a readable table of contents for ordinary posts. A draft should usually have 3-5 concrete sections after the intro, with headings that describe the decision or problem rather than generic labels.
 - Start with the concrete situation or tension before explaining terminology. Put definitions after the reader understands why the distinction matters.
+- In the intro, give first-time readers enough service or domain context to understand why the work exists before narrowing into the technical point: what kind of service or workflow the team operates, where this feature sits inside it, and which specific problem the post covers. For example, for a payment post, start from a public-safe service context such as `예약과 결제를 함께 처리하는 서비스가 있고, 그 안에서 결제 승인과 환불 흐름을 다룬다` before discussing implementation details.
 - Body images can be added with Markdown, for example `![Alt text](/blog/drafts/YYYY-MM-DD-short-topic-figure.png)`.
 - Every body image needs meaningful alt text and must be referenced from `/blog/drafts/` while the post is still a draft.
 - Cover images can be SVG, PNG, JPG, or WebP. Prefer generated PNG/WebP for covers unless a deterministic vector cover is specifically better.
@@ -94,7 +96,8 @@ public_safety_notes: 공개 글에서 숨기거나 추상화한 내용
 - Use visual support whenever it improves understanding, especially for state transitions, before/after code responsibility, architecture boundaries, refactoring flows, technology stacks, domain concepts, and tradeoffs.
 - Do not add decorative visuals just to make the post look richer. A visual should replace confusion, not add ornament.
 - For covers, avoid dense text, small labels, table-like diagrams, or SVGs filled with explanatory copy. A cover should create the subject mood; the article body and MDX components should carry the explanation.
-- Good generated cover directions for this blog include glassmorphism technical scenes, clean payment/infra mapping visuals, minimal still-life compositions, and abstract UI/infrastructure forms with no logos or watermarks.
+- Good generated cover directions for this blog include Pulse-like editorial technical thumbnails, glassmorphism technical scenes, clean payment/infra mapping visuals, minimal still-life compositions, and abstract UI/infrastructure forms with no logos or watermarks.
+- A strong cover prompt should name the post's central concept, the visual metaphor, subject placement, lighting/material direction, and what to avoid. Prefer prompts such as `premium editorial thumbnail of a payment approval flow represented by translucent stacked cards and a glowing settlement rail, single focal object, soft studio lighting, high depth, clean background, no text, no logos, no screenshots` over prompts that ask for charts, dashboards, labels, or literal code.
 - Prefer MDX components for structured explanation and Markdown/code blocks for ordinary prose.
 - Available MDX components:
   - `<Callout tone="note|decision|tradeoff|warning" title="...">...</Callout>`
