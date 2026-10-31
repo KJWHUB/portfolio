@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import readingTime from "reading-time";
+import { getReadingMinutes } from "@/lib/content-metrics";
 
 const POSTS_DIR = path.join(process.cwd(), "content/posts");
 
@@ -33,7 +33,7 @@ function readPost(slug: string): Post | null {
   return {
     ...frontmatter,
     slug,
-    readingMinutes: Math.max(1, Math.round(readingTime(content).minutes)),
+    readingMinutes: getReadingMinutes(content),
     content,
   };
 }
